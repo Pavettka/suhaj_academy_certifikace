@@ -1,0 +1,1 @@
+# suhaj_academy_certifikace
