@@ -20,6 +20,12 @@ export const customElement = (selector) => {
       cy.get(selector).should("have.attr", "placeholder", placeholder);
       return element;
     },
+
+    haveResponse(api) {
+      cy.wait(api).its("response.body.access_token").should("exist");
+      return element;
+    },
+
     haveAttribute(attribute, value) {
       cy.get(selector).should("have.attr", attribute, value);
       return element;

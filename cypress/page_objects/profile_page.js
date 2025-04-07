@@ -26,18 +26,18 @@ export class ProfilePage {
     return this;
   }
 
-  typephone(phone) {
+  typePhone(phone) {
     this.phone.get().type(phone);
     return this;
   }
 
-  typephone(age) {
+  typeAge(age) {
     this.age.get().type(age);
     return this;
   }
 
   clickSubmitButton() {
     this.submitButton.click();
-    return DashboardPage();
+    return new DashboardPage();
   }
 }

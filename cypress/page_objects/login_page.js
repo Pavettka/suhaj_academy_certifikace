@@ -1,4 +1,5 @@
 import { customElement } from "../helpers/custom_element";
+import { DashboardPage } from "./dashboard_page";
 import { RegisterPage } from "./register_page";
 
 export class LoginPage {
@@ -12,6 +13,7 @@ export class LoginPage {
       "button[data-testid='register-button']"
     );
     this.loginButton = customElement("button[data-testid='submit-button']");
+    cy.intercept("/tegb/login").as("login_api");
   }
 
   openTegb() {
@@ -36,6 +38,11 @@ export class LoginPage {
 
   clickLogin() {
     this.loginButton.click();
-    return this; //tady by měl být odkaz na new dashboard
+    return new DashboardPage();
+  }
+
+  clickLoginApi() {
+    this.loginButton.click().haveResponse("@login_api");
+    return new DashboardPage();
   }
 }

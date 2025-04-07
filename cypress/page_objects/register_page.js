@@ -9,6 +9,7 @@ export class RegisterPage {
     this.passwordInput = customElement("input[placeholder='Heslo']");
     this.emailInput = customElement("input[placeholder='Email']");
     this.registerButton = customElement("button[type='submit']");
+    cy.intercept("/tegb/register").as("register_api");
   }
 
   typeRegisterUsername(username) {
@@ -28,6 +29,7 @@ export class RegisterPage {
 
   submitRegister() {
     this.registerButton.click();
+    cy.wait("@register_api");
     return new LoginPage();
   }
 }

@@ -1,9 +1,10 @@
+import { customElement } from "../helpers/custom_element";
 import { LoginPage } from "../page_objects/login_page";
 
 export class HeaderSection {
   constructor() {
     this.logoutButton = customElement(".logout-link");
-    this.logo = customElements("img[alt='Tredgate Logo']");
+    this.logo = customElement("img[alt='Tredgate Logo']");
   }
 
   clickLogoutButton() {
