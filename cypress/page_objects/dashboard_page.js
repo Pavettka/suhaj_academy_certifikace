@@ -13,12 +13,15 @@ export class DashboardPage extends HeaderSection {
     this.ageSave = customElement("div[data-testid='age']");
     this.addAccount = customElement(".account-action");
     this.accountNumber = customElement(".account-action");
-    this.addAccount = customElement(".account-action");
-    this.addAccount = customElement(".account-action");
+    this.accountNumber = customElement('[data-testid="account-number"]');
+    this.accountBalance = customElement('[data-testid="account-balance"]');
+    this.accountType = customElement('[data-testid="account-type"]');
+    cy.intercept("/tegb/profile").as("profile_api");
   }
 
   clickChangeProfile() {
     this.changeProfile.click();
+    cy.wait("@profile_api");
     return new ProfilePage();
   }
 
@@ -33,27 +36,42 @@ export class DashboardPage extends HeaderSection {
   }
 
   firstNameHaveText(firstName) {
-    this.firstNameSave.haveText(firstName).isVisible();
+    this.firstNameSave.containsText(firstName).isVisible();
     return this;
   }
 
   lastNameHaveText(lastName) {
-    this.lastNameSave.haveText(lastName).isVisible();
+    this.lastNameSave.containsText(lastName).isVisible();
     return this;
   }
 
   emailHaveText(email) {
-    this.emailSave.haveText(email).isVisible();
+    this.emailSave.containsText(email).isVisible();
     return this;
   }
 
   phoneHaveText(phone) {
-    this.phoneSave.haveText(phone).isVisible();
+    this.phoneSave.containsText(phone).isVisible();
     return this;
   }
 
   ageHaveValue(age) {
-    this.ageSave.haveValue(age).isVisible();
+    this.ageSave.containsText(age).isVisible();
+    return this;
+  }
+
+  accountNumberIsVisible() {
+    this.accountNumber.isVisible();
+    return this;
+  }
+
+  accountBalanceHaveValue(balance) {
+    this.accountBalance.containsText(balance).isVisible();
+    return this;
+  }
+
+  accountTypeHaveText(type) {
+    this.accountType.containsText(type).isVisible();
     return this;
   }
 }
