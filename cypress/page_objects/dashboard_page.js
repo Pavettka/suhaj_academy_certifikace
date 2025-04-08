@@ -12,10 +12,22 @@ export class DashboardPage extends HeaderSection {
     this.phoneSave = customElement("div[data-testid='phone']");
     this.ageSave = customElement("div[data-testid='age']");
     this.addAccount = customElement(".account-action");
-    this.accountNumber = customElement(".account-action");
+    this.accountNumberHeader = customElement(
+      "th[data-testid='account-number-heading']"
+    );
     this.accountNumber = customElement('[data-testid="account-number"]');
     this.accountBalance = customElement('[data-testid="account-balance"]');
+    this.accountBalanceHeader = customElement(
+      "th[data-testid='account-balance-heading']"
+    );
     this.accountType = customElement('[data-testid="account-type"]');
+    this.accountTypeHeader = customElement(
+      "th[data-testid='account-type-heading']"
+    );
+    this.profileTitle = customElement(
+      "h2[data-testid='profile-details-title']"
+    );
+    this.accountTitle = customElement("h2[data-testid='accounts-title']");
     cy.intercept("/tegb/profile").as("profile_api");
   }
 
@@ -32,6 +44,11 @@ export class DashboardPage extends HeaderSection {
 
   addAccountIsVisible() {
     this.addAccount.isVisible();
+    return this;
+  }
+
+  clickAddAccount() {
+    this.addAccount.click();
     return this;
   }
 
@@ -72,6 +89,31 @@ export class DashboardPage extends HeaderSection {
 
   accountTypeHaveText(type) {
     this.accountType.containsText(type).isVisible();
+    return this;
+  }
+
+  accountNumberHeaderCheck(title) {
+    this.accountNumberHeader.isVisible().containsText(title);
+    return this;
+  }
+
+  accountBalanceHeaderCheck(title) {
+    this.accountBalanceHeader.isVisible().containsText(title);
+    return this;
+  }
+
+  accountTypeHeaderCheck(title) {
+    this.accountTypeHeader.isVisible().containsText(title);
+    return this;
+  }
+
+  profiletTitleCheck(title) {
+    this.profileTitle.isVisible().containsText(title);
+    return this;
+  }
+
+  accountTitleCheck(title) {
+    this.accountTitle.isVisible().containsText(title);
     return this;
   }
 }
