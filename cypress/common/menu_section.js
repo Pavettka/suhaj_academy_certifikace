@@ -1,34 +1,30 @@
 import { customElement } from "../helpers/custom_element";
-import { HeaderSection } from "./header_section";
 
-export class MenuSection extends HeaderSection {
+export class MenuSection {
   constructor() {
-    super();
-    this.homeLink = customElement("li").eq(1);
-    this.accountLink = customElement("li").eq(2);
-    this.transactionLink = customElement("li").eq(3);
-    this.supportLink = customElement("li").eq(4);
+    this.homeLink = customElement("ul > :nth-child(1)");
+    this.accountLink = customElement("ul > :nth-child(2)");
+    this.transactionLink = customElement("ul > :nth-child(3)");
+    this.supportLink = customElement("ul > :nth-child(4)");
   }
 
   checkHomeLink(home) {
-    this.homeLink.containsText(home);
-    return this();
+    this.homeLink.containsText(home).isVisible();
+    return this;
   }
 
   checkAccountLink(account) {
-    this.homeLink.containsText(account);
-    return this();
+    this.accountLink.containsText(account);
+    return this;
   }
 
   checkTransactionLink(transaction) {
-    this.transactionLink.containsText(transaction);
-    return this();
+    this.transactionLink.containsText(transaction).isVisible();
+    return this;
   }
 
   checkSupportLink(support) {
-    this.supportLink.containsText(support);
-    return this();
+    this.supportLink.containsText(support).isVisible();
+    return this;
   }
 }
-
-//cy.get('li').eq(1).should('contain', 'siamese') - testování seznamu

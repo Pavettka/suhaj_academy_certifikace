@@ -9,6 +9,9 @@ export class ProfilePage {
     this.phone = customElement("input[data-testid='chage-phone-input']");
     this.age = customElement("input[data-testid='chage-age-input']");
     this.submitButton = customElement("button[type='submit']");
+    this.cancelChangeButton = customElement(
+      "button[data-testid='toggle-edit-profile-button']"
+    );
   }
 
   typeFirstName(firstName) {
@@ -38,6 +41,11 @@ export class ProfilePage {
 
   clickSubmitButton() {
     this.submitButton.click();
+    return new DashboardPage();
+  }
+
+  clickCancelChangesButton() {
+    this.cancelChangeButton.click();
     return new DashboardPage();
   }
 }

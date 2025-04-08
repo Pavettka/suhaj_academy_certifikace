@@ -25,6 +25,9 @@ export class AccountApi {
         username,
         password,
       },
-    });
+    })
+    .then((response) => {
+        expect(response.status).to.eq(201);
+      });
   }
 }
