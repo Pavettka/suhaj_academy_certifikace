@@ -12,8 +12,8 @@ describe("Login API response have access_token and response status 201", () => {
 
       new LoginPage()
         .openTegb()
-        .typeUsername(Cypress.env("tegb_username"))
-        .typePassword(Cypress.env("tegb_password"))
+        .typeUsername(username)
+        .typePassword(password)
         .clickLoginApi();
     });
   });
