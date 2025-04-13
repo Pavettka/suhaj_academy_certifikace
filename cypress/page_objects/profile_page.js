@@ -46,6 +46,7 @@ export class ProfilePage {
 
   clickCancelChangesButton() {
     this.cancelChangeButton.click();
+    cy.wait("@dashboard_api");
     return new DashboardPage();
   }
 }

@@ -8,6 +8,10 @@ export const customElement = (selector) => {
       cy.get(selector).should("have.text", text);
       return element;
     },
+    exist() {
+      cy.get(selector).should("exist");
+      return element;
+    },
     containsText(text) {
       cy.get(selector).should("contain.text", text);
       return element;

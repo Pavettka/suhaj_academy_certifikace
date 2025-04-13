@@ -9,22 +9,22 @@ export class MenuSection {
   }
 
   checkHomeLink(home) {
-    this.homeLink.containsText(home).isVisible();
+    this.homeLink.containsText(home).isVisible().exist();
     return this;
   }
 
   checkAccountLink(account) {
-    this.accountLink.containsText(account);
+    this.accountLink.containsText(account).exist();
     return this;
   }
 
   checkTransactionLink(transaction) {
-    this.transactionLink.containsText(transaction).isVisible();
+    this.transactionLink.containsText(transaction).isVisible().exist();
     return this;
   }
 
   checkSupportLink(support) {
-    this.supportLink.containsText(support).isVisible();
+    this.supportLink.containsText(support).isVisible().exist();
     return this;
   }
 }

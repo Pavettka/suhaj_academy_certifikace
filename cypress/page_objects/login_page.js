@@ -4,7 +4,7 @@ import { RegisterPage } from "./register_page";
 
 export class LoginPage {
   constructor() {
-    this.loginUrl = Cypress.env("tegb_login");
+    this.loginUrl = Cypress.env("tegb_loginUrl");
     this.usernameInput = customElement(
       "input[placeholder='Uživatelské jméno']"
     );
@@ -37,11 +37,6 @@ export class LoginPage {
   }
 
   clickLogin() {
-    this.loginButton.click();
-    return new DashboardPage();
-  }
-
-  clickLoginApi() {
     this.loginButton.click().haveResponse("@login_api");
     return new DashboardPage();
   }

@@ -8,8 +8,6 @@ describe("DDT - Balance Check", () => {
   let password;
   let email;
   let type = "Test";
-  let token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBldHIuZmlma2EiLCJzdWIiOjUsImlhdCI6MTcwMTMzOTIyOSwiZXhwIjoxNzAxMzQyODI5fQ.e-mWFHJQmMZgEo0ZJN80bnNLo0iIfYyE95WliqVOLRQ";
 
   beforeEach(() => {
     username = faker.internet.userName();
@@ -38,6 +36,11 @@ describe("DDT - Balance Check", () => {
       const api = new AccountApi();
       api.login(username, password).then((response) => {
         const token = response.body.access_token;
+        cy.wrap(token).as("accessToken");
+        cy.get("@accessToken").then((token) => {
+          cy.setCookie("access_token", token);
+        });
+
         api.createAccount(token, startBalance, type).then((response) => {
           expect(response.status).to.eq(201);
           expect(response.body).to.have.property("userId");

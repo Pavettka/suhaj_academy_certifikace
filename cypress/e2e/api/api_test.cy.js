@@ -8,13 +8,11 @@ describe("Login API response have access_token and response status 201", () => {
 
     const api = new AccountApi();
     api.login(username, password).then((response) => {
-      const token = response.body.access_token;
-
       new LoginPage()
         .openTegb()
         .typeUsername(Cypress.env("tegb_username"))
         .typePassword(Cypress.env("tegb_password"))
-        .clickLoginApi();
+        .clickLogin();
     });
   });
 });
