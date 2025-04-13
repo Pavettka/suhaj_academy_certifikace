@@ -1,26 +1,54 @@
 import { AccountApi } from "../../api/account_api";
 import { DashboardPage } from "../../page_objects/dashboard_page";
 import { LoginPage } from "../../page_objects/login_page";
+import { faker } from "@faker-js/faker";
 
 describe("DashBoard Atomic Tests", { testIsolation: false }, () => {
+  let username;
+  let password;
+  let email;
+  let firstName;
+  let lastName;
+  let startBalance = 1000;
+  let type = "Test";
+
   before(() => {
     cy.clearAllCookies();
     cy.clearAllLocalStorage();
     cy.clearAllSessionStorage();
 
-    const username = Cypress.env("tegb_username");
-    const password = Cypress.env("tegb_password");
+    username = faker.internet.userName();
+    password = faker.internet.password();
+    email = faker.internet.email();
+    firstName = faker.person.firstName();
+    lastName = faker.person.lastName();
+    cy.log(password);
+    cy.log(email);
+
+    new LoginPage()
+      .openTegb()
+      .clickRegister()
+      .typeRegisterUsername(username)
+      .typeRegisterPassword(password)
+      .typeRegisterEmail(email)
+      .submitRegister();
 
     const api = new AccountApi();
     api.login(username, password).then((response) => {
       const token = response.body.access_token;
+      cy.wrap(token).as("accessToken");
+      cy.get("@accessToken").then((token) => {
+        cy.setCookie("access_token", token);
+      });
+
+      api.createAccount(token, startBalance, type).then((response) => {
+        expect(response.status).to.eq(201);
+        expect(response.body).to.have.property("userId");
+        expect(response.body.balance).to.eq(startBalance);
+      });
     });
 
-    new LoginPage()
-      .openTegb()
-      .typeUsername(username)
-      .typePassword(password)
-      .clickLogin();
+    new LoginPage().typeUsername(username).typePassword(password).clickLogin();
   });
 
   context("Header and Menu Section is Visible ", () => {
@@ -32,8 +60,11 @@ describe("DashBoard Atomic Tests", { testIsolation: false }, () => {
         .checkSupportLink("Podpora");
     });
 
-    it("Logos are Visible", () => {
-      new DashboardPage().logoIsVisible().logoInTheMiddleIsVisible();
+    it("Logos are Visible and Have Text", () => {
+      new DashboardPage()
+        .logoIsVisible()
+        .logoInTheMiddleIsVisible()
+        .logoInTheMiddleHaveText("TEG#B Dashboard");
     });
   });
 
@@ -42,6 +73,7 @@ describe("DashBoard Atomic Tests", { testIsolation: false }, () => {
       new DashboardPage()
         .profiletTitleCheck("Detaily Profilu")
         .changeProfileIsVisible()
+        .changeProfileHaveText("Upravit profil")
         .clickChangeProfile()
         .clickCancelChangesButton();
     });
@@ -49,6 +81,7 @@ describe("DashBoard Atomic Tests", { testIsolation: false }, () => {
     it("Account Check", () => {
       new DashboardPage()
         .addAccountIsVisible()
+        .addAccountHaveText("Přidat účet")
         // .clickAddAccount() - nefunguje
         .accountTitleCheck("Účty")
         .accountNumberHeaderCheck("Číslo účtu")
@@ -58,7 +91,9 @@ describe("DashBoard Atomic Tests", { testIsolation: false }, () => {
   });
   context("Logout ", () => {
     it("Logout Check", () => {
-      new DashboardPage().clickLogoutButton();
+      new DashboardPage()
+        .logoutButtonHaveText("Odhlásit se")
+        .clickLogoutButton();
     });
   });
 });

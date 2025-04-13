@@ -8,8 +8,6 @@ describe("E2E exercise", () => {
   let email;
   let firstName;
   let lastName;
-  let token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBldHIuZmlma2EiLCJzdWIiOjUsImlhdCI6MTcwMTMzOTIyOSwiZXhwIjoxNzAxMzQyODI5fQ.e-mWFHJQmMZgEo0ZJN80bnNLo0iIfYyE95WliqVOLRQ";
   let startBalance = 1000;
   let type = "Test";
 
@@ -35,6 +33,11 @@ describe("E2E exercise", () => {
     const api = new AccountApi();
     api.login(username, password).then((response) => {
       const token = response.body.access_token;
+      cy.wrap(token).as("accessToken");
+      cy.get("@accessToken").then((token) => {
+        cy.setCookie("access_token", token);
+      });
+
       api.createAccount(token, startBalance, type).then((response) => {
         expect(response.status).to.eq(201);
         expect(response.body).to.have.property("userId");
@@ -53,6 +56,7 @@ describe("E2E exercise", () => {
       .typePhone("+420111111111")
       .typeAge(10)
       .clickSubmitButton()
+      .successfulChangeProfilMessageHaveText("Profile updated successfully!")
       .firstNameHaveText(firstName)
       .lastNameHaveText(lastName)
       .emailHaveText(email)
